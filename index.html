@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+       .card {
+    background-color: rgba(248, 246, 246, 0.95); /* Dark background for main card */
+    color: #0c0707; /* White text for readability */
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0px 4px 12px rgba(243, 242, 242, 0.5); /* Subtle shadow */
+    transition: transform 1.2s ease, box-shadow 0.2s ease;
+}
+.white{
+  background-color:white;
+}
+card:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    box-shadow: 0px 8px 16px rgba(245, 243, 243, 0.6); /* Enhanced shadow on hover */
+}
+/* Background styling */
+body::before {
+    content: "";
+    background-image: url('https://cdn1.vectorstock.com/i/1000x1000/75/55/restaurant-building-city-background-street-vector-26247555.jpg'); /* Light background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+      ::-webkit-scrollbar {
+        width: 2px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: #888888; /* Color of the thumb */
+        border-radius: 2px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #d43030; /* Color of the thumb on hover */
+      }
+    </style>
+  </head>
+  <body class="container mx-auto">
+    <div>
+      <div class="grid grid-cols-3">
+        <div class="col-span-3 md:col-span-1 flex justify-center md:block">
+          <img id="logo_img" src="https://img.freepik.com/premium-vector/chef-food-restaurant-logo_7085-179.jpg" alt="" class="h-24" />
+        </div>
+        <div
+          class="col-span-3 md:col-span-2 px-4 md:flex md:flex-row-reverse justify-center items-end"
+        >
+          <div class="md:w-1/2 md:ml-4">
+            <label
+              for="category"
+              class="block text-xs font-medium leading-6 text-black-900"
+              >Category</label
+            >
+            <select
+              id="category"
+              name="category"
+              onchange="setItems()"
+              class="block w-full rounded-md p-2 text-black-900 border border-black-300 rounded-lg bg-black-100 focus:border-indigo-700"
+            >
+              <option selected value="">All</option>
+            </select>
+          </div>
+          <div class="flex-1 mt-4 md:w-1/2">
+            <label
+              for="default-search"
+              class="mb-2 text-sm font-medium text-black-900 sr-only"
+              >Search</label
+            >
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+              >
+                <svg
+                  class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="search"
+                id="search"
+                onkeyup="setItems()"
+                class="block w-full p-2 pl-10 text-sm text-gray-900 border border-BLACK-700 rounded-lg bg-BLACK-150 focus:border-indigo-700"
+                placeholder="Search"
+                required
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-2 p-2 bg-gray-50"></div>
+      <div class="divider divide-y-2 px-4 pb-10">
+        <ul
+          role="list"
+          id="menu_items"
+          class="divide-y md:divide-y-0 divide-black-100 md:grid grid-cols-12 gap-3"
+        >
+          <!-- Sample item -->
+          <li class="flex md:border border-black-200 md:rounded-md p-2 justify-between gap-x-6 py-3 col-span-4">
+            <div class="flex-1">
+              <p class="text-base font-semibold leading-6 text-black-900">Sample Item</p>
+              <p class="mt-1 truncate text-sm leading-5 text-black-500">$10.00</p>
+            </div>
+            <div>
+              <img
+                class="h-16 w-16 bg-gray-50 rounded-lg"
+                src="https://via.placeholder.com/64"
+                alt="Sample Item"
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const data = {
+        categories: ["Snacks", "Main Courses", "Desserts"],
+        menu_items: [
+        { id: 1, name: "VADA PAV", price: "60", image: "https://wallpapercave.com/wp/wp8981219.jpg", category: "Snacks", description: "Spicy potato fritter (vada) nestled in a soft pav." },
+                { id: 2, name: "Samosa", price: "50", image: "https://cdn.britannica.com/57/170657-050-C9620E39/Indian-samosa-chutney.jpg", category: "Snacks", description: "Crispy pastry filled with spiced potatoes and peas, served with mint chutney." },
+                { id: 3, name: "Aloo Tikki", price: "40", image: "https://tse1.mm.bing.net/th?id=OIP.g_VeXaKnOqYSVMs59b1DUgHaJy&pid=Api&P=0&h=220", category: "Snacks", description: "Crispy spiced potato patties, served with tangy tamarind and mint chutneys." },
+                { id: 4, name: "Paneer Tikka", price: "120", image: "https://tse4.mm.bing.net/th?id=OIP.dwhbLm-CSCaF4Q-THJ7bFgHaE8&pid=Api&P=0&h=220", category: "Snacks", description: "Grilled paneer cubes marinated with spices." },
+                { id: 5, name: "Chili Paneer", price: "150", image: "https://tse2.mm.bing.net/th?id=OIP.ap9yax7MjhrVb99Ch4E5mwHaE8&pid=Api&P=0&h=220", category: "Snacks", description: "Paneer cubes tossed in a spicy sauce with bell peppers." },
+                { id: 6, name: "Gulab Jamun", price: "70", image: "https://www.mydelicious-recipes.com/home/images/282_1200_1200/mydelicious-recipes-gulab-jamun", category: "Desserts", description: "Soft and syrupy balls made of khoya, dipped in rose-flavored syrup." },
+                { id: 7, name: "Ras Malai", price: "80", image: "https://tse3.mm.bing.net/th?id=OIP.9fhCy5FZcUbfl6QPli-mmQHaE8&pid=Api&P=0&h=220", category: "Desserts", description: "Cottage cheese discs soaked in sweetened milk and flavored with cardamom." },
+                { id: 8, name: "Jalebi", price: "60", image: "https://tse2.mm.bing.net/th?id=OIP.3VEjY-H3uqH-DRuSmstKjAHaE7&pid=Api&P=0&h=220", category: "Desserts", description: "Crispy fried sweets soaked in sugar syrup, served hot." },
+                { id: 9, name: "Kheer", price: "70", image: "https://i0.wp.com/www.honeywhatscooking.com/wp-content/uploads/2020/10/Rice-Kheer-Indian-Rice-Pudding44.jpg?w=1536&ssl=1", category: "Desserts", description: "Creamy rice pudding flavored with cardamom and garnished with nuts." },
+                { id: 10, name: "Ladoo", price: "50", image: "https://tse3.mm.bing.net/th?id=OIP.gcguxOPCFLreNEG2U0fGQQHaD4&pid=Api&P=0&h=220", category: "Desserts", description: "Sweet round balls made from gram flour and sugar." },
+                { id: 11, name: "Palak Paneer", price: "130", image: "https://tse4.mm.bing.net/th?id=OIP.hEfZBsmALqU0q7jfii5LyQHaE8&pid=Api&P=0&h=220", category: "Main Courses", description: "Fresh spinach and paneer cooked together with aromatic spices." },
+                { id: 12, name: "Paneer Butter Masala", price: "150", image: "https://img.freepik.com/premium-photo/delicious-paneer-butter-masala-photography_928503-851.jpg?w=2000", category: "Main Courses", description: "Creamy paneer cubes simmered in a rich tomato and butter gravy, infused with aromatic spices." },
+                { id: 13, name: "Paneer Tikka Masala", price: "160", image: "https://tse3.mm.bing.net/th?id=OIP.630u88tNxfD0mJTGRx-HVwHaHa&pid=Api&P=0&h=220", category: "Main Courses", description: "Grilled paneer tikka cooked in a spicy and creamy gravy." },
+                { id: 14, name: "Paneer Bhurji", price: "140", image: "https://tse4.mm.bing.net/th?id=OIP.1JZLJbQLT4cdQPj_B_sB_AHaHa&pid=Api&P=0&h=220", category: "Main Courses", description: "Scrambled paneer cooked with onions, tomatoes, and spices." },
+                
+        ],
+        settings: { currency: "₹" }
+      };
+
+      const init = () => {
+        $("#logo_img").attr('src', "https://img.freepik.com/premium-vector/chef-food-restaurant-logo_7085-179.jpg");
+        setCategory();
+        setItems();
+      };
+
+      const setCategory = () => {
+        const $category = $('#category');
+
+        const { categories } = data;
+        categories.forEach((name) => {
+          const $option = $(`<option value="${name}">${name}</option>`);
+          $category.append($option);
+        });
+      };
+
+      const setItems = () => {
+        const $category = $('#category');
+        const selected_category = $category.val();
+
+        const $menu_items = $('#menu_items');
+        $menu_items.empty();
+
+        const search_text = $('#search').val().toLowerCase();
+        const { categories, menu_items, settings } = data;
+
+        const category_list = selected_category ? [selected_category] : categories;
+        const menu = {};
+
+        category_list.forEach((category) => {
+          menu_items.forEach((item) => {
+            const { name, price, image, category: item_category } = item;
+            if (category !== item_category) return;
+            if (search_text && name.toLowerCase().indexOf(search_text) === -1) return;
+
+            if (!menu[category]) menu[category] = [item];
+            else menu[category].push(item);
+          });
+        });
+
+        category_list.forEach((category, i) => {
+          const items = menu[category];
+          if (!items) return;
+
+          const $category = $(`<li class="pt-6 sticky col-span-12"><h3 id="cat_${i}" class="text-lg font-medium leading-6 text-black-900"></h3></li>`);
+          $menu_items.append($category);
+          $(`#cat_${i}`).text(category);
+
+          items.forEach((item) => {
+            const { id, name, price, image, description } = item;
+            const $item = $(`
+              <li class="md:col-span-6 lg:col-span-4 h-full">
+                <div class="h-full flex items-stretch md:border border-gray-700 md:rounded-md p-2 justify-between gap-x-6 py-3 card">
+                    <div class="card">
+                      <p id="item_name${id}" class="text-base font-semibold leading-6 text-gray-1000"></p>
+                      <p id="item_price${id}" class="mt-1 truncate text-sm leading-5 text-gray-1000"></p>
+                      <p id="item_description${id}" class="mt-1 overflow-hidden whitespace-normal text-xs leading-5 text-gray-500"></p>
+                    </div>
+                    <div>
+                      ${image && `<img class="h-16 md:h-20 w-16 md:w-20 bg-black-50 rounded-lg" id="item_image${id}" />`}
+                    </div>
+                </div>
+              </li>
+            `);
+            $menu_items.append($item);
+            $(`#item_name${id}`).text(name);
+            $(`#item_price${id}`).text(`${settings.currency}${price}`);
+            $(`#item_image${id}`).attr('src', image);
+            $(`#item_image${id}`).attr('alt', name);
+
+            if (String(description).length > 80) {
+              $(`#item_description${id}`).text(String(description).substring(0, 80) + '...');
+              const $more = $(`<button class="text-xs text-gray-700 hover:text-gray-900" onclick="expandItem('${id}')">More</button>`);
+              $(`#item_description${id}`).append($more);
+            } else {
+              $(`#item_description${id}`).text(String(description));
+            }
+          });
+        });
+      };
+
+      const expandItem = (id) => {
+        const item = data.menu_items.find((item) => item.id === id);
+        $(`#item_description${id}`).text(item.description);
+      };
+
+      init();
+    </script>
+  </body>
+</html>
